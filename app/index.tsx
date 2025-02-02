@@ -1,140 +1,84 @@
-import { Text, View } from "react-native";
-import React, { useState } from "react";
-import { SafeAreaView, FlatList, TextInput, Button, StyleSheet, TouchableOpacity } from "react-native";
+import {View, StyleSheet, Text} from "react-native";
+import {useState} from "react";
 
-const App = () => {
-  const [stocks, setStocks] = useState([
-    { id: "1", name: "Apple", symbol: "AAPL", price: 150 },
-    { id: "2", name: "Tesla", symbol: "TSLA", price: 850 },
-    { id: "3", name: "Amazon", symbol: "AMZN", price: 3300 },
-    { id: "4", name: "삼성전자", symbol: "SAMS", price: 55},
-    { id: "5", name: "LG전자", symbol: "LGES", price: 30},
-  ]);
-  const [search, setSearch] = useState("");
-  const [filteredStocks, setFilteredStocks] = useState(stocks);
-  const [selectedStock, setSelectedStock] = useState(null);
+function HomeScreen() {
 
-  const handleSearch = (text) => {
-    setSearch(text);
-    setFilteredStocks(
-      stocks.filter(
-        (stock) =>
-          stock.name.toLowerCase().includes(text.toLowerCase()) ||
-          stock.symbol.toLowerCase().includes(text.toLowerCase())
-      )
-    );
-  };
-
-  const StockList = () => (
-    <FlatList
-      data={filteredStocks}
-      keyExtractor={(item) => item.id}
-      renderItem={({ item }) => (
-        <TouchableOpacity onPress={() => setSelectedStock(item)} style={styles.stockItem}>
-          <Text style={styles.stockName}>{item.name} ({item.symbol})</Text>
-          <Text style={styles.stockPrice}>${item.price}</Text>
-        </TouchableOpacity>
-      )}
-    />
-  );
-
-  const StockDetail = () => (
-    <View style={styles.detailContainer}>
-      <Text style={styles.detailTitle}>{selectedStock.name} ({selectedStock.symbol})</Text>
-      <Text style={styles.detailPrice}>현재가: ${selectedStock.price}</Text>
-      <Button title="Back to List" onPress={() => setSelectedStock(null)} />
-    </View>
-  );
-
-  const Assist = () => (
-    <View style={styles.listContainer}>
-      <TextInput
-      placeholder="AI와 음성을 이용할 수 있어요!"
-      value={search}
-      style={styles.searchInput}
-      />
-    </View>
-  );
+  // Code for handle event(predssing, scrolling, etc ... )
+  // Can use any react hooks ( e.g. useState, useMemo ... )
+  // how could I handle global states>?? Is there any way for help this?
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.header}>KOSCOM AI 트레이딩</Text>
-      {selectedStock ? (
-        <StockDetail />
-      ) : (
-        <View style={styles.listContainer}>
-          <TextInput
-            style={styles.searchInput}
-            placeholder="찾고자하는 종목을 입력해주세요"
-            value={search}
-            onChangeText={handleSearch}
-          />
-          <StockList />
+      <View style={styles.container}>
+        {/* first section */}
+        <View style={[styles.firstSection]}>
+          <Text style={{fontSize: 20, fontWeight: "bold"}}>새롭게 등장한 서비스</Text>
+          <View style={styles.speechBubble}>
+            <Text style={styles.speechText}>빠르고 쉬운 투자! 말한마디로 금융서비스를 시작해볼까요?</Text>
+            <View style={styles.speechTail}></View>
+          </View>
+          <View>
+            {/* MTS 에셋 협의 필요, 일렬로 늘어놔야함*/}
+            <Text>음성기반 MTS 사용하기</Text>
+          </View>
         </View>
-      )}
-      <Assist></Assist>
-    </SafeAreaView>
+
+        {/* second section */ }
+        <View style={[styles.section, ]}>
+          <Text style={{fontSize:20, fontWeight:"bold"}}>실시간 통계</Text>
+          <View>
+            {/* TODO : horizontal scroll */}
+          </View>
+        </View>
+
+        {/* third section */}
+        <View style={styles.section}>
+          <Text style={{fontSize:20,fontWeight:"bold"}}>실시간 차트</Text>
+          { /* TODO : vertical scroll */}
+        </View>
+      </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f5f5f5",
-  },
-  header: {
-    fontSize: 24,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginVertical: 20,
-  },
-  listContainer: {
-    paddingHorizontal: 20,
-  },
-  searchInput: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 8,
-    marginBottom: 20,
-    paddingHorizontal: 10,
-  },
-  stockItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 15,
-    backgroundColor: "#fff",
-    borderRadius: 8,
-    marginBottom: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1.41,
-    elevation: 2,
-  },
-  stockName: {
-    fontSize: 18,
-    fontWeight: "500",
-  },
-  stockPrice: {
-    fontSize: 16,
-    color: "#4caf50",
-  },
-  detailContainer: {
-    flex: 1,
-    justifyContent: "center",
+    flex: 1, // 화면 전체 차지
+    backgroundColor: "F2F4F6", // 부모 배경 검정색 유지
     alignItems: "center",
-    padding: 20,
+    justifyContent: "center"
   },
-  detailTitle: {
-    fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 20,
+  firstSection : {
+    flex: 1, // 3개의 영역이 동일하게 분배됨
+    backgroundColor: "white", // 하얀 배경
+    width: "100%", // 가로 전체 차지
   },
-  detailPrice: {
-    fontSize: 18,
-    marginBottom: 20,
+  section: {
+    flex: 1, // 3개의 영역이 동일하게 분배됨
+    backgroundColor: "white", // 하얀 배경
+    width: "100%", // 가로 전체 차지
+    marginTop: 30
   },
+  speechBubble: {
+    backgroundColor: "#fff",
+    padding: 15,
+    borderRadius: 10,
+    maxWidth: 250,
+    alignSelf: "center",
+    position: "relative",
+  },
+  speechText: {
+    fontSize: 16,
+    fontWeight: "bold"
+  },
+  speechTail: {
+    position: "absolute",
+    bottom: -10, // 말풍선 아래쪽 꼬리
+    left: "80%", // tail position determined by this !
+    marginLeft: -10, // 꼬리 정렬
+    width: 20,
+    height: 20,
+    backgroundColor: "#fff",
+    transform: [{ rotate: "45deg" }],
+  }
 });
 
-export default App;
+export default HomeScreen;
