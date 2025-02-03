@@ -1,11 +1,14 @@
-import { View, Text, Image, StyleSheet } from "react-native";
-import * as wasi from "node:wasi";
+import React from 'react';
+import { View, Text, Image, StyleSheet, TouchableOpacity, } from "react-native";
+// import * as wasi from "node:wasi";
 
-const LlmButton = () => {
+const LlmButton = ({ setVisible }: { setVisible: React.Dispatch<React.SetStateAction<boolean>> }) => {
   return (
     <View style={styles.llmContainer}>
-      <Image source={require("../assets/images/mic.png")} style={styles.llmButton} />
-      <Text style={styles.llmText}>터치하여 대화하며 MTS 사용해보기</Text>
+        <TouchableOpacity onPress={() => setVisible(true)}>
+            <Image source={require("../assets/images/mic.png")} style={styles.llmButton} />
+        </TouchableOpacity>
+        <Text style={styles.llmText}>터치하여 대화하며 MTS 사용해보기</Text>
     </View>
   );
 };
