@@ -1,5 +1,7 @@
 import {View, StyleSheet, Text, Animated, Easing, Dimensions} from "react-native";
 import { useEffect, useRef, useState } from "react";
+import ThirdSection from "./third-section";
+
 
 const {width} = Dimensions.get("window");
 
@@ -112,7 +114,7 @@ function HomeScreen() {
       </View>
 
       {/* second section */}
-      <View style={styles.section}>
+      <View style={styles.secondSection}>
         <Text style={styles.titleText}>실시간 통계</Text>
         <View style={styles.marketContainer}>
           {marketData.map((item) => {
@@ -123,7 +125,6 @@ function HomeScreen() {
                   { transform: [{ translateX: translateXAnime }] },
                 ]}
               >
-                {/* 리스트를 2배로 늘려서 자연스럽게 반복되도록 설정 */}
                 {[...marketData, ...marketData].map((item, index) => (
                   <View key={index} style={styles.marketBox}>
                     <Text style={styles.marketText}>{item.name}</Text>
@@ -147,7 +148,7 @@ function HomeScreen() {
       </View>
 
       {/* third section */}
-      <View style={styles.section}>
+      <View style={styles.thirdSection}>
         <Text style={styles.titleText}>실시간 차트</Text>
         <View>
           {stockData.map((item) => {
@@ -167,16 +168,22 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   firstSection: {
-    flex: 1,
+    flex: 2,
     backgroundColor: "white",
     width: "100%",
     paddingTop: 60,
   },
-  section: {
-    flex: 1,
+  secondSection: {
+    flex: 2,
     backgroundColor: "white",
     width: "100%",
     marginTop: 20,
+  },
+  thirdSection: {
+    flex: 3,
+    backgroundColor: "white",
+    width: "100%",
+    marginTop: 20
   },
   titleText: {
     fontSize: 20,
@@ -226,14 +233,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginTop: 10,
+    marginRight: 15
   },
   marketBox: {
     backgroundColor: "#F2F4F6",
     padding: 15,
-    borderRadius: 10,
-    width: 100,
+    borderRadius: 15,
+    width: 130,
     alignItems: "center",
+    marginRight: 15
   },
   marketText: {
     fontSize: 16,
