@@ -13,8 +13,8 @@ function MyPageScreen() {
   return (
     <View style={styles.container}>
       <View style={[styles.firstSection]}>
-        <Text style={{fontSize: 20, fontWeight: "bold", marginTop: 20, marginLeft: 20}}>{id}님의 자산</Text>
-        <View style={{marginTop:20, marginLeft:50}}>
+        <Text style={{fontSize:20, fontWeight: "bold", marginTop: 20, marginLeft: 20}}>{id}님 자산현황</Text>
+        <View style={{marginTop:15, marginLeft:50}}>
           <View style={styles.assetContainer}>
             <Text style={styles.assetLabel}>총자산</Text>
             <Text style={styles.assetLabel}>{totalAsset}</Text>
@@ -39,7 +39,7 @@ function MyPageScreen() {
               key={tabName}
               style={[
                 styles.tab,
-                selectedTab === tabName && styles.selectedTab // 선택된 탭 스타일 적용
+                selectedTab === tabName && styles.selectedTab
               ]}
               onPress={() => setSelectedTab(tabName)}
             >
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
       height: 50
   },
   section: {
-    flex: 2, // 3개의 영역이 동일하게 분배됨
+    flex: 3, // 3개의 영역이 동일하게 분배됨
     backgroundColor: "white", // 하얀 배경
     width: "100%", // 가로 전체 차지
     marginTop: 20
