@@ -13,7 +13,7 @@ const StockChart = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white", width: "100%", marginTop: 20 },
+  container: { flex: 1, backgroundColor: "white", width: "100%", marginTop: 5 },
   titleText: { fontSize: 20, fontWeight: "bold", marginLeft: 20, marginTop: 20 },
   chartPlaceholder: {
     height: 200,

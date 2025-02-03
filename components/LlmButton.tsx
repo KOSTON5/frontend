@@ -12,7 +12,7 @@ const LlmButton = () => {
 const styles = StyleSheet.create({
   llmContainer: { flexDirection: "row", marginTop: 20, marginLeft: 40, alignItems: "center" },
   llmButton: { width: 40, height: 40 },
-  llmText: { marginLeft: 25, fontSize: 16 },
+  llmText: { marginLeft: 25, fontSize: 16, fontWeight: "bold" },
 });
 
 export default LlmButton;
