@@ -18,7 +18,7 @@ const SpeechBubbleIcon: React.FC<SpeechBubbleIconProps> = ({
         <View style={[styles.container, { width, height, backgroundColor }]}> {/* Apply dynamic backgroundColor */}
             <Image
                 source={require('../assets/images/conversation.png')} // Adjust path as needed
-                style={[styles.icon, { width: iconSize, height: iconSize, tintColor: 'white' }]} // Apply icon color
+                style={{ width: iconSize, height: iconSize, tintColor: 'white' }} // Apply icon color
                 resizeMode="contain"
             />
         </View>
@@ -36,10 +36,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
         elevation: 3, // For Android shadow
-    },
-    icon: {
-        // The tintColor for the icon will be set dynamically
-    },
+    }
 });
 
 export default SpeechBubbleIcon;
