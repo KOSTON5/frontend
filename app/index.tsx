@@ -25,11 +25,30 @@ export default function HomeScreen() {
   }, []);
 
   // Market Data
-  const [marketData] = useState([
+  const [marketData,setMarketData] = useState([
     { id: 1, name: "나스닥", price: 20000, displacement: -0.4 },
     { id: 2, name: "코스피", price: 30000, displacement: +0.8 },
     { id: 3, name: "S&P 500", price: 10000, displacement: +1.7 },
   ]);
+
+  // stock endpoint
+  const url = "http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/stock/chart";
+  // stock data fetch
+  useEffect(() => {
+    const fetchMarketData = async () => {
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        setMarketData(data);
+      } catch (err) {
+        console.log("error occur:",err);
+      } finally {
+        // loading bool이 있으면 바꿔주기
+      }
+
+      fetchMarketData();
+    }
+  }, []);
 
   return (
     <View style={styles.container}>
