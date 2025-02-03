@@ -1,14 +1,15 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import React from "react";
 
 const StockChart = () => {
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.titleText}>실시간 차트</Text>
       {/* TODO: 실제 차트 라이브러리 적용 */}
       <View style={styles.chartPlaceholder}>
         <Text style={{ color: "#888" }}>차트 데이터 로딩 중...</Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

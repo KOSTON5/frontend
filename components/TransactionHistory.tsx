@@ -25,7 +25,7 @@ const TransactionHistory = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 2, backgroundColor: "white", width: "100%", marginTop: 20 },
+  container: { flex: 2, backgroundColor: "white", width: "100%", marginTop: 5 },
   title: { fontSize: 20, fontWeight: "bold", marginTop: 20, marginLeft: 20 },
   tabContainer: { flexDirection: "row", marginTop: 20 },
   tab: {
