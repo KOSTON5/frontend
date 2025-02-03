@@ -16,6 +16,7 @@ export default function Layout() {
             name="index"
             options={{
               headerShown: false,
+              title : "홈",
               tabBarIcon: ({ color, size }) => (
                   <Ionicons name="home" size={size} color={color} />
               ),
@@ -26,6 +27,7 @@ export default function Layout() {
             name="mypage"
             options={{
               headerShown: false,
+              title : "마이페이지",
               tabBarIcon: ({ color, size }) => (
                   <Ionicons name="person" size={size} color={color} />
               ),

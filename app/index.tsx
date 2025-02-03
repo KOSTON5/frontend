@@ -1,6 +1,6 @@
-import {View, StyleSheet, Text, Animated, Easing, Dimensions} from "react-native";
+import {View, StyleSheet, Text, Animated, Easing, Dimensions, Image} from "react-native";
 import { useEffect, useRef, useState } from "react";
-import ThirdSection from "./third-section";
+import {Assets} from "@react-navigation/elements";
 
 
 const {width} = Dimensions.get("window");
@@ -9,9 +9,8 @@ function HomeScreen() {
   // TODO : API endpoint
   const apiEndPoint = "";
 
-  // Up and Down Animating
+  // Up and Down Animation
   const shakeAnime = useRef(new Animated.Value(0)).current;
-  const rotateAnime = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const startShake = () => {
@@ -108,14 +107,14 @@ function HomeScreen() {
           </View>
         </Animated.View>
         <View style={styles.llmContainer}>
-          <View style={styles.llmButton}></View>
+          <Image source={require("./assets/media-record-symbolic.png")} style={styles.llmButton}/>
           <Text style={styles.llmText}>터치하여 음성기반 MTS 사용해보기</Text>
         </View>
       </View>
 
       {/* second section */}
       <View style={styles.secondSection}>
-        <Text style={styles.titleText}>실시간 통계</Text>
+        <Text style={styles.titleText}>실시간 지수</Text>
         <View style={styles.marketContainer}>
           {marketData.map((item) => {
             return (
@@ -150,11 +149,7 @@ function HomeScreen() {
       {/* third section */}
       <View style={styles.thirdSection}>
         <Text style={styles.titleText}>실시간 차트</Text>
-        <View>
-          {stockData.map((item) => {
-            return <Text key={item.id}>Hello</Text>;
-          })}
-        </View>
+        { /* TODO : stock data */ }
       </View>
     </View>
   );
@@ -225,7 +220,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   llmButton: {
-    backgroundColor: "red",
     width: 40,
     height: 40,
   },
