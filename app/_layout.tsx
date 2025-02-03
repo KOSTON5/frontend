@@ -15,6 +15,7 @@ export default function Layout() {
         <Tabs.Screen
             name="index"
             options={{
+                headerShown: false,
               title: "홈",
               tabBarIcon: ({ color, size }) => (
                   <Ionicons name="home" size={size} color={color} />
@@ -26,6 +27,7 @@ export default function Layout() {
             name="mypage"
             options={{
               title: "마이페이지",
+                headerShown: false,
               tabBarIcon: ({ color, size }) => (
                   <Ionicons name="person" size={size} color={color} />
               ),
