@@ -1,7 +1,8 @@
 import {View, FlatList, TouchableOpacity, Image, Text, StyleSheet, Dimensions } from "react-native";
 import {Overlay} from "react-native-elements";
-import React, {useState} from "react";
-import SpeechBubbleIcon from "@/components/speechicon";
+import React, {useState, useRef} from "react";
+import SpeechBubbleIcon from "@/components/SpeechIcon";
+import AudioRecorder from "./Recording";
 
 interface OverlayPageProps {
     visible: boolean;
@@ -23,7 +24,6 @@ const OverlayChat: React.FC<OverlayPageProps> = ({ visible, setVisible } ) => {
         { id: '1', text: '"삼성전자 시장가로 100주 매수해줘" 맞으실까요?', sender: 'bot', type: 'text'},
         { id: '2', text: '', sender: 'bot', type: 'button' },  // 예/아니오 버튼 메시지
     ]);
-    const [recording, setRecording] = useState<boolean>(false);
 
     const handleSelection = (response: '예' | '아니오') => {
         // 버튼 메시지를 제거하고 예/아니오 응답을 추가
@@ -32,8 +32,6 @@ const OverlayChat: React.FC<OverlayPageProps> = ({ visible, setVisible } ) => {
 
         setMessages(updatedMessages);
     };
-
-    const image = recording ? require('../assets/images/stop.png') : require('../assets/images/rec-button.png');
 
     const renderItem = ({ item }: { item: Message }) => {
         if (item.type === 'button') {
@@ -85,13 +83,7 @@ const OverlayChat: React.FC<OverlayPageProps> = ({ visible, setVisible } ) => {
                         contentContainerStyle={styles.messageList}
                     />
                 </View>
-                <TouchableOpacity onPress={() => setRecording(!recording)}>
-                    <Image
-                        source={image}
-                        style={{width: 60, height: 60}}
-                        resizeMode="contain"
-                    />
-                </TouchableOpacity>
+                <AudioRecorder />
             </View>
         </Overlay>
     )

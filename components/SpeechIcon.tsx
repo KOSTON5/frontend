@@ -15,7 +15,7 @@ const SpeechBubbleIcon: React.FC<SpeechBubbleIconProps> = ({
                                                                backgroundColor = '#0084ff', // Default background color
                                                            }) => {
     return (
-        <View style={[styles.container, { width, height, backgroundColor }]}> {/* Apply dynamic backgroundColor */}
+        <View style={[styles.container, { width, height, backgroundColor }]}>
             <Image
                 source={require('../assets/images/conversation.png')} // Adjust path as needed
                 style={{ width: iconSize, height: iconSize, tintColor: 'white' }} // Apply icon color
