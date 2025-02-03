@@ -1,15 +1,17 @@
-import { View, StyleSheet, Text, Animated, Easing, Dimensions } from "react-native";
-import { useEffect, useRef, useState } from "react";
+import {Animated, Dimensions, Easing, StyleSheet, Text, View} from "react-native";
+import {useEffect, useRef, useState} from "react";
 import AnimatedSpeechBubble from "../components/AnimatedSpeechBubble";
 import LlmButton from "../components/LlmButton";
 import MarketStats from "../components/MarketStats";
 import StockChart from "../components/StockChart";
+import OverlayChat from "../components/overlaychat";
 
 const { width } = Dimensions.get("window");
 
 export default function HomeScreen() {
   // Conveyor Belt Animation
   const translateXAnime = useRef(new Animated.Value(0)).current;
+  const [visible, setVisible] = useState<boolean>(false);
 
   useEffect(() => {
     Animated.loop(
@@ -34,10 +36,11 @@ export default function HomeScreen() {
       <View style={styles.firstSection}>
         <Text style={styles.titleText}>새롭게 등장한 서비스</Text>
         <AnimatedSpeechBubble />
-        <LlmButton />
+        <LlmButton setVisible={setVisible}/>
       </View>
-      <MarketStats marketData={marketData} />
+      <MarketStats marketData={marketData}/>
       <StockChart />
+      <OverlayChat visible={visible} setVisible={setVisible} />
     </View>
   );
 }
