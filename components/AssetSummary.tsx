@@ -32,7 +32,7 @@ const AssetSummary = ({ id, totalAsset, cashBalance, rateOfReturn }: AssetSummar
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white", width: "100%", paddingTop: 60 },
+  container: { height: 250, backgroundColor: "white", width: "100%", paddingTop: 60},
   title: { fontSize: 20, fontWeight: "bold", marginTop: 20, marginLeft: 20 },
   assetWrapper: { marginTop: 20, marginLeft: 50 },
   assetContainer: { flexDirection: "row", alignItems: "center" },

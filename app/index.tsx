@@ -36,7 +36,6 @@ export default function HomeScreen() {
         <AnimatedSpeechBubble />
         <LlmButton />
       </View>
-
       <MarketStats marketData={marketData} />
       <StockChart />
     </View>
@@ -45,6 +44,6 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "#F2F4F6", alignItems: "center" },
-  firstSection: { flex: 1, backgroundColor: "white", width: "100%", paddingTop: 60 },
+  firstSection: { height: 270, backgroundColor: "white", width: "100%", paddingTop: 60 },
   titleText: { fontSize: 20, fontWeight: "bold", marginTop: 20, marginLeft: 20 },
 });

@@ -15,7 +15,6 @@ export default function MyPageScreen() {
     <View style={styles.container}>
       {/* 자산 정보 */}
       <AssetSummary id={id} totalAsset={totalAsset} cashBalance={cashBalance} rateOfReturn={rateOfReturn} />
-
       {/* 거래 내역 */}
       <TransactionHistory />
     </View>

@@ -38,7 +38,7 @@ const MarketStats = ({ marketData }: MarketDataProps) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "white", width: "100%", marginTop: 5},
+  container: { height: 150, backgroundColor: "white", width: "100%", marginTop: 5},
   titleText: { fontSize: 20, fontWeight: "bold", marginLeft: 20, marginTop: 20 },
   marketContainer: { flexDirection: "row", paddingHorizontal: 20, marginTop: 10 },
   marketBox: {
