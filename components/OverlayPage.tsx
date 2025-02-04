@@ -11,7 +11,7 @@ interface OverlayPageProps {
 
 const OverlayPage: React.FC<OverlayPageProps> = ({ visible, setVisible }) => {
 
-    const [statement, setStatement] = React.useState<string>();
+    const [statement, setStatement] = React.useState<string | undefined>();
 
     return (
         <Overlay

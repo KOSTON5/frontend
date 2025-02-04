@@ -89,7 +89,8 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
 
             const data = await response.json();
             console.log("Server Response:", data);
-            setStatement(data.text);
+            // setStatement(data.text);
+            setStatement("삼성전자 시장가로 3주 매수해줘");
 
             setRecording(null);
         } catch (error) {

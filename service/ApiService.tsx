@@ -37,7 +37,7 @@ export const getApi = async ({path}: {path: string}) => {
 
 export const postApi = async ({ path, body }: { path: string; body: any }) => {
     try {
-        const response = await axios.post(path, body);
+        const response = await axios.post(getApiUrl({path}), body);
         console.log('Response:', response.data);
         return response.data;  // Return the response for further use
     } catch (error) {
