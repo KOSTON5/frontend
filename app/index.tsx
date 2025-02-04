@@ -4,7 +4,7 @@ import AnimatedSpeechBubble from "../components/AnimatedSpeechBubble";
 import LlmButton from "../components/LlmButton";
 import MarketStats from "../components/MarketStats";
 import StockChart from "../components/StockChart";
-import OverlayChat from "../components/overlaychat";
+import OverlayChat from "../components/OverlayChat";
 
 const { width } = Dimensions.get("window");
 
@@ -36,9 +36,9 @@ export default function HomeScreen() {
       <View style={styles.firstSection}>
         <Text style={styles.titleText}>새롭게 등장한 서비스</Text>
         <AnimatedSpeechBubble />
-        <LlmButton setVisible={setVisible}/>
+        <LlmButton setVisible={setVisible} />
       </View>
-      <MarketStats marketData={marketData}/>
+      <MarketStats marketData={marketData} />
       <StockChart />
       <OverlayChat visible={visible} setVisible={setVisible} />
     </View>
