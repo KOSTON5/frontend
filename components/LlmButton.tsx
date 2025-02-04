@@ -14,14 +14,14 @@ const LlmButton = ({ setVisible }: { setVisible: React.Dispatch<React.SetStateAc
             style={{ width: 50, height: 50 }}
           />
         </TouchableOpacity>
-        <Text style={styles.llmText}>터치하여 대화하듯 MTS 사용해보기</Text>
+        <Text style={styles.llmText}>음성 기반 MTS 이용하기</Text>
     </View>
   );
 };
 const styles = StyleSheet.create({
   llmContainer: { flexDirection: "row", marginTop: 10, marginLeft: 40, alignItems: "center" },
   llmButton: { width: 40, height: 40 },
-  llmText: { marginLeft: 21, fontSize: 16, fontWeight: "bold" },
+  llmText: { marginLeft: 18, fontSize: 18, fontWeight: "bold" },
 });
 
 export default LlmButton;
