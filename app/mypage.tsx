@@ -4,8 +4,6 @@ import AssetSummary from "../components/AssetSummary";
 import TransactionHistory from "../components/TransactionHistory";
 
 export default function MyPageScreen() {
-  // User info
-  // 임정환,3
   const userId = 1;
   const url = "http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/users/information";
   const [userName,setUserName] = useState("임정환");
@@ -26,7 +24,6 @@ export default function MyPageScreen() {
         setTotalAsset(Number(data.totalAssets));
         setCashBalance(Number(data.availableBalance));
         setRateOfReturn(Number(data.profitRate));
-
       } catch (err) {
         console.log("error occur while fetching user info:",err);
       }
@@ -66,8 +63,8 @@ export default function MyPageScreen() {
       <AssetSummary
         name={userName}
         totalAsset={totalAsset}
-        cashBalance={10000}
-        rateOfReturn={3.12} />
+        cashBalance={cashBalance}
+        rateOfReturn={rateOfReturn} />
       {/* 거래 내역 */}
       <TransactionHistory txHistory={transactionHistory} />
     </View>
