@@ -5,30 +5,40 @@ import TransactionHistory from "../components/TransactionHistory";
 
 export default function MyPageScreen() {
   // User info
+  // 임정환,3
+  const userId = 1;
   const url = "http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/users/information";
-  const [userId,setUserId] = useState("알수없음");
+  const [userName,setUserName] = useState("임정환");
   // TODO: 서버에서 가져올 데이터
   const [totalAsset, setTotalAsset] = useState(0);
   const [cashBalance, setCashBalance] = useState(0);
   const [rateOfReturn, setRateOfReturn] = useState(0);
 
-  // TODO : After CORS issue
-  // useEffect(()=>{
-  //   const fetchUserId = async () => {
-  //     try {
-  //       const response = await fetch(url)
-  //       const data = await response.json();
-  //       setUserId(data);
-  //     } catch (err) {
-  //       console.log("error occur while fetching user info:",err);
-  //     }
-  //   }
-  //
-  //   // fetch user info
-  //   fetchUserId();
-  // }, []);
+  useEffect(()=>{
+    const fetchUserName = async () => {
+      try {
+        const response = await fetch(url, {
+          method : "GET",
+          headers : {
+            "X-USER-ID" : String(userId)
+          }
+        })
+        const data = await response.json();
+        console.log(data);
+        setTotalAsset(Number(data.totalAssets));
+        setCashBalance(Number(data.availableBalance));
+        setRateOfReturn(Number(data.profitRate));
+        console.log("done");
+      } catch (err) {
+        console.log("error occur while fetching user info:",err);
+      }
+    }
 
-  // transparency
+    // fetch user info
+    fetchUserName();
+  }, []);
+
+  // transaction history
   const txUrl = "";
   const [transactionHistory, setTransactionHistory] = useState([]);
 
@@ -49,7 +59,11 @@ export default function MyPageScreen() {
   return (
     <View style={styles.container}>
       {/* 자산 정보 */}
-      <AssetSummary id={userId} totalAsset={totalAsset} cashBalance={cashBalance} rateOfReturn={rateOfReturn} />
+      <AssetSummary
+        name={userName}
+        totalAsset={20340560}
+        cashBalance={10000}
+        rateOfReturn={3.12} />
       {/* 거래 내역 */}
       <TransactionHistory txHistory={transactionHistory} />
     </View>

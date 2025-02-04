@@ -3,12 +3,24 @@ import {useState} from "react";
 
 interface TxHistoryProps {
   txHistory : {
-
-  }
+    orderId : number,
+    stockName : String,
+    ticker : String,
+    price : Number,
+    quantity : Number,
+    orderType : String,
+    orderDate : Date
+  }[]
 }
 
 const TransactionHistory = ({txHistory}:TxHistoryProps) => {
   const [selectedTab, setSelectedTab] = useState("전체");
+
+  const filterHistory = txHistory.filter((item)=>{
+    if(selectedTab == "전체")
+      return true;
+    return item.orderType === selectedTab;
+  })
 
   return (
     <View style={styles.container}>
@@ -26,6 +38,11 @@ const TransactionHistory = ({txHistory}:TxHistoryProps) => {
           </TouchableOpacity>
         ))}
       </View>
+      <View style={styles.listContainer}>
+        {
+          filterHistory
+        }
+      </View>
     </View>
   );
 };
@@ -42,6 +59,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#898686",
     borderWidth: 1,
   },
+  listContainer: {flexDirection : "column"},
   selectedTab: { borderBottomColor: "black", borderBottomWidth: 3 },
   tabText: { color: "#898686" },
   selectedTabText: { color: "black", fontWeight: "bold" },
