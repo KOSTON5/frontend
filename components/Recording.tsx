@@ -89,6 +89,8 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
 
             const data = await response.json();
             setStatement(data.text);
+            // setStatement("삼성전자 시장가에 3주 매수해줘");
+            // setStatement("현대자동차 예약가에 6000원으로 2주 매도해줘");
             setRecording(null);
         } catch (error) {
             console.error('Error stopping recording:', error);
