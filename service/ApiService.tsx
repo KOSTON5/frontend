@@ -1,18 +1,19 @@
 import axios from "axios";
 
 const getApiUrl = ({path}: {path: string}) => {
-    const url = new URL('http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/');
-    url.pathname = path;
-    return url.toString();
+    const url = 'http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com';
+    return url + path;
 };
 
 export const getApi = async ({path}: {path: string}) => {
     try {
+        const url = getApiUrl({path});
         const response = await axios.get(getApiUrl({path}), {
             headers: {
                 "X-USER-ID" : 1,
             }
         });
+
         return response.data;  // Return the response for further use
     } catch (error) {
         console.error('Error posting data:', error);

@@ -92,6 +92,7 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
             // setStatement("삼성전자 시장가에 3주 매수해줘");
             // setStatement("현대자동차 예약가에 6000원으로 2주 매도해줘");
             // setStatement("내 현재 예수금 알려줘");
+            // setStatement("네이버 현재 주가 알려줘");
             setRecording(null);
         } catch (error) {
             console.error('Error stopping recording:', error);

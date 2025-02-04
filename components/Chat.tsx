@@ -88,10 +88,18 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                                 { id: String(prevMessages.length + 3), text: '', sender: 'bot', type: 'final button' },
                             ]);
                         }
-                        /*else if (res.commandType === "SEARCH"){
-
-                        }*/
+                        else if (res.commandType === "SEARCH"){
+                            const ticker = res.ticker;
+                            const stockName = res.stockName;
+                            const path = "/api/stock?ticker=" + ticker;
+                            const response = await getApi({path});
+                            setMessages(prevMessages => [
+                                ...prevMessages,
+                                { id: String(prevMessages.length + 2), text: `${stockName}의 현재가는 ${response}원 입니다.`, sender: 'bot' },
+                            ]);
+                        }
                         setOrderId(res.orderId);
+                        console.log(res);
                     } catch (error) {
                         console.error('Error during API call:', error);
                     }
@@ -131,13 +139,13 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                             if (result.orderCondition === "MARKET"){
                                 setMessages(prevMessages => [
                                     ...prevMessages,
-                                    { id: String(prevMessages.length + 2), text: `시장가 ${result.executedPrice}원에 ${result.executedQuantity}주 ${result.commandType === "SELL"? "매도" : "매수"} 성공하였습니다. 마이페이지에서 확인하세요.`, sender: 'bot' }
+                                    { id: String(prevMessages.length + 2), text: `시장가 ${result.executedPrice}원에 ${result.executedQuantity}주 체결 성공하였습니다. 마이페이지에서 확인하세요.`, sender: 'bot' }
                                 ]);
                             }
                             else{
                                 setMessages(prevMessages => [
                                     ...prevMessages,
-                                    { id: String(prevMessages.length + 2), text: `지정가 ${result.executedPrice}원에 ${result.executedQuantity}주 ${result.commandType === "SELL"? "매도" : "매수"} 예약하였습니다. 추후에 체결 성공 시 알려드리겠습니다. 예약 정보는 마이페이지에서 확인하세요.`, sender: 'bot' }
+                                    { id: String(prevMessages.length + 2), text: `지정가 ${result.executedPrice}원에 ${result.executedQuantity}주 체결 예약하였습니다. 추후에 체결 성공 시 알려드리겠습니다. 예약 정보는 마이페이지에서 확인하세요.`, sender: 'bot' }
                                 ]);
                             }
                         } catch (error) {
@@ -165,9 +173,6 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                             { id: String(prevMessages.length + 2), text: `사용자님이 보유하고 있는 주식은 ${stocks}입니다.`, sender: 'bot' }
                         ]);
                     }
-                    /*else if (commandType === "SEARCH"){
-
-                    }*/
                 }
             }
         })();
