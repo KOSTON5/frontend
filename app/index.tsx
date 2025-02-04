@@ -58,7 +58,6 @@ export default function HomeScreen() {
     fetchStockData();
 
     // polling every single second
-    setInterval(fetchStockData,1000);
   }, []);
 
   return (

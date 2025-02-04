@@ -24,11 +24,9 @@ export default function MyPageScreen() {
           }
         })
         const data = await response.json();
-        console.log(data);
         setTotalAsset(Number(data.totalAssets));
         setCashBalance(Number(data.availableBalance));
         setRateOfReturn(Number(data.profitRate));
-        console.log("done");
       } catch (err) {
         console.log("error occur while fetching user info:",err);
       }

@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { Audio } from 'expo-av';
 import LottieView from 'lottie-react-native';
-import { postApiHeader } from "@/service/ApiService";
-import {Asset} from "expo-asset";
-import FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system"; // ✅ import 수정
 
 interface AudioProps {
     setStatement: React.Dispatch<React.SetStateAction<string | undefined>>;
@@ -33,8 +31,8 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
             }
 
             await Audio.setAudioModeAsync({
-                allowsRecordingIOS: true, // ✅ Enables recording on iOS
-                playsInSilentModeIOS: true, // ✅ REQUIRED for iOS recording
+                allowsRecordingIOS: true,
+                playsInSilentModeIOS: true,
             });
 
             const newRecording = new Audio.Recording();
@@ -50,20 +48,46 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
     };
 
     const stopRecording = async () => {
-        if (!recording) return;
+        if (!recording) {
+            console.error("No recording found.");
+            return;
+        }
 
         try {
             setIsRecording(false);
             await recording.stopAndUnloadAsync();
-            const uri = recording.getURI();
+            const recordingUri = recording.getURI();
 
-            if (uri) {
-                setAudioUri(uri);
-                console.log('Recording saved at:', uri);
-                sendAudio({uri});
-            } else {
-                console.error('Failed to retrieve recording URI');
+            if (!recordingUri) {
+                console.error("Recording URI is null!");
+                return;
             }
+
+            setAudioUri(recordingUri);
+            console.log('Recording saved at:', recordingUri);
+
+            // ✅ 파일 정보 확인
+            const fileInfo = await FileSystem.getInfoAsync(recordingUri);
+            console.log("File info:", fileInfo);
+
+            // ✅ 서버에 업로드 (fetch 요청 수정)
+            const formData = new FormData();
+            formData.append("audioFile", {
+                uri: recordingUri,
+                name: "audio_recording.m4a",
+                type: "audio/m4a",
+            });
+
+            const response = await fetch("http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/openai/stt", {
+                method: "POST",
+                body: formData,
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            const data = await response.json();
+            console.log("Server Response:", data);
 
             setRecording(null);
         } catch (error) {
@@ -71,53 +95,27 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
         }
     };
 
-    const sendAudio = async ({uri} :{uri : string}) => {
-        if (!uri) {
-            Alert.alert('No Audio', 'Please record audio first.');
-            return;
-        }
-
-        console.log('Sending audio:', uri);
-        const url = `${FileSystem.documentDirectory}16.m4a`;
-
-        // Create FormData to send audio file
-        const formData = new FormData();
-        formData.append('audioFile',{
-            uri: url,
-            type: 'audio/mp4',
-            name: '16.m4a'
-        })
-
-        try {
-            
-        } catch (err) {
-
-        }
-
-    };
-
     return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <TouchableOpacity
-                onPress={isRecording ? stopRecording : startRecording}
-                style={{
-                    width: 90,
-                    height: 90,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}
-            >
-                {/* record stop button */}
-                <LottieView
-                    source={require('../assets/images/recordinglottie.json')} // Ensure this file exists
-                    autoPlay
-                    loop={true} // Loop animation while recording
-                    style={{ width: 90, height: 90 }}
-                />
-            </TouchableOpacity>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity
+            onPress={isRecording ? stopRecording : startRecording}
+            style={{
+                width: 90,
+                height: 90,
+                justifyContent: 'center',
+                alignItems: 'center',
+            }}
+          >
+              <LottieView
+                source={require('../assets/images/recordinglottie.json')}
+                autoPlay
+                loop={true}
+                style={{ width: 90, height: 90 }}
+              />
+          </TouchableOpacity>
 
-            {isRecording && <ActivityIndicator size="large" color="red" />}
-        </View>
+          {isRecording && <ActivityIndicator size="large" color="red" />}
+      </View>
     );
 };
 
