@@ -1,13 +1,7 @@
-import {View, FlatList, TouchableOpacity, Image, Text, StyleSheet, Dimensions } from "react-native";
-import {Overlay} from "react-native-elements";
-import React, {useState, useRef} from "react";
+import React, { useState, useEffect } from "react";
+import {FlatList, StyleSheet, Text, TouchableOpacity, View, Dimensions, Alert} from "react-native";
 import SpeechBubbleIcon from "@/components/SpeechIcon";
-import AudioRecorder from "./Recording";
-
-interface OverlayPageProps {
-    visible: boolean;
-    setVisible: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { getApi, postApi } from "@/service/ApiService";
 
 interface Message {
     id: string;
@@ -16,22 +10,67 @@ interface Message {
     type?: 'text' | 'button';  // 버튼 타입 추가
 }
 
+/*interface Chat {
+    type? :
+}*/
+
+interface ChatProps {
+    visible: boolean;
+    statement: string | undefined;
+    setStatement: React.Dispatch<React.SetStateAction<string | undefined>>;
+}
+
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const OverlayChat: React.FC<OverlayPageProps> = ({ visible, setVisible } ) => {
+const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
 
-    const [messages, setMessages] = useState<Message[]>([
-        { id: '1', text: '"삼성전자 시장가로 100주 매수해줘" 맞으실까요?', sender: 'bot', type: 'text'},
-        { id: '2', text: '', sender: 'bot', type: 'button' },  // 예/아니오 버튼 메시지
-    ]);
+    const [messages, setMessages] = useState<Message[]>([]);
+    const [proceed, setProceed] = useState<string>('');
+    const [orderId, setOrderId] = useState<string | null>(null);
+
+    useEffect(() => {
+        setMessages([
+            { id: '1', text: '아래 버튼을 눌러 주문을 시작해보세요!', sender: 'bot', type: 'text'},
+            { id: '2', text: '', sender: 'bot', type: 'button' },  // 예/아니오 버튼 메시지
+        ]);
+        setOrderId(null);
+        setStatement(undefined);
+        setProceed('');
+    }, [visible]);
+
+    useEffect(() => {
+        const mid = proceed;
+        setProceed(''); // Reset proceed state
+        if (mid === "아니오") { // 아니오
+            setMessages(prevMessages => [
+                ...prevMessages,
+                { id: String(prevMessages.length + 2), text: "주문을 취소하였습니다.", sender: 'bot' }
+            ]);
+            const path = "/api/orders/cancel";
+            const body = ''; // Assuming you're sending empty body or provide data as needed
+            try {
+                const result = postApi({ path, body });
+                console.log('Response: ', result);
+            } catch (error) {
+                console.error('Error during API call:', error);
+            }
+        }
+        else{
+            //
+        }
+    }, [proceed]);
 
     const handleSelection = (response: '예' | '아니오') => {
         // 버튼 메시지를 제거하고 예/아니오 응답을 추가
         const updatedMessages = messages.filter(msg => msg.type !== 'button');
         updatedMessages.push({ id: String(messages.length + 1), text: response, sender: 'user' });
-
+        setProceed(response);
         setMessages(updatedMessages);
     };
+
+    useEffect(() => { // 맨 처음 user statement가 들어오면
+
+    }, [statement]);
 
     const renderItem = ({ item }: { item: Message }) => {
         if (item.type === 'button') {
@@ -61,39 +100,17 @@ const OverlayChat: React.FC<OverlayPageProps> = ({ visible, setVisible } ) => {
     };
 
     return (
-        <Overlay
-            isVisible={visible}
-            onBackdropPress={() => setVisible(false)}
-            overlayStyle={{
-                backgroundColor: 'transparent',
-                shadowOpacity: 0,
-                elevation: 0,
-            }}
-            backdropStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-        >
-            <TouchableOpacity style={styles.closeButton} onPress={() => setVisible(false)}>
-                <Text>✖</Text>
-            </TouchableOpacity>
-            <View style={styles.overlayContent}>
-                <View style={styles.transparentContainer}>
-                    <FlatList
-                        data={messages}
-                        renderItem={renderItem}
-                        keyExtractor={(item) => item.id}
-                        contentContainerStyle={styles.messageList}
-                    />
-                </View>
-                <AudioRecorder />
-            </View>
-        </Overlay>
+        <FlatList
+            data={messages}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.messageList}
+        />
     )
 }
 
 const styles = StyleSheet.create({
-    closeButton: { marginTop: 30, marginRight: 5, padding: 10, width: 50, height: 50, alignItems: 'center', justifyContent: 'center', alignSelf: 'flex-end' },
     messageList: { flexGrow: 1 },
-    overlayContent: { backgroundColor: 'transparent', flex: 1, padding: 10, justifyContent: 'center', alignItems: 'center' },
-    transparentContainer: { backgroundColor: 'transparent', flex: 1 },
     buttonMessageContainer: { flexDirection: 'row', justifyContent: 'center', marginVertical: 10, alignSelf: 'center' },
     choiceButton: { backgroundColor: '#4CAF50', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 10, marginHorizontal: 5 },
     buttonText: { color: 'white', fontSize: 16, fontWeight: 'bold' },
@@ -106,4 +123,4 @@ const styles = StyleSheet.create({
     userMessage: { alignSelf: 'flex-start', backgroundColor: '#fff', padding: 10, borderRadius: 15, marginLeft: 7 },
 });
 
-export default OverlayChat;
+export default Chat
