@@ -46,7 +46,7 @@ export const postApi = async ({ path, body }: { path: string; body: any }) => {
     }
 };
 
-export const postApiHeader = async (path: string, formData: any, header: string) => {
+/*export const postApiHeader = async (path: string, formData: any, header: string) => {
     try {
         const response = await axios.post(path, formData, {
             headers: {
@@ -62,4 +62,4 @@ export const postApiHeader = async (path: string, formData: any, header: string)
         console.error('Error posting data postApiHeader:', error);
         throw error;  // Re-throw error to handle it outside
     }
-};
+};*/

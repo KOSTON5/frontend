@@ -78,6 +78,7 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
                 type: "audio/m4a",
             });
 
+            // test
             const response = await fetch("http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/openai/stt", {
                 method: "POST",
                 body: formData,
@@ -88,6 +89,7 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
 
             const data = await response.json();
             console.log("Server Response:", data);
+            setStatement(data.text);
 
             setRecording(null);
         } catch (error) {
@@ -96,26 +98,26 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
     };
 
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <TouchableOpacity
-            onPress={isRecording ? stopRecording : startRecording}
-            style={{
-                width: 90,
-                height: 90,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-          >
-              <LottieView
-                source={require('../assets/images/recordinglottie.json')}
-                autoPlay
-                loop={true}
-                style={{ width: 90, height: 90 }}
-              />
-          </TouchableOpacity>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <TouchableOpacity
+                onPress={isRecording ? stopRecording : startRecording}
+                style={{
+                    width: 90,
+                    height: 90,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+            >
+                <LottieView
+                    source={require('../assets/images/recordinglottie.json')}
+                    autoPlay
+                    loop={true}
+                    style={{ width: 90, height: 90 }}
+                />
+            </TouchableOpacity>
 
-          {isRecording && <ActivityIndicator size="large" color="red" />}
-      </View>
+            {isRecording && <ActivityIndicator size="large" color="red" />}
+        </View>
     );
 };
 
