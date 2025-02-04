@@ -24,30 +24,41 @@ export default function HomeScreen() {
     ).start();
   }, []);
 
-  // Market Data
+  // index
   const [marketData,setMarketData] = useState([
-    { id: 1, name: "나스닥", price: 20000, displacement: -0.4 },
-    { id: 2, name: "코스피", price: 30000, displacement: +0.8 },
-    { id: 3, name: "S&P 500", price: 10000, displacement: +1.7 },
+    { "id": 1, "name": "나스닥", "price": 19627.44, "displacement": -0.28 },
+    { "id": 2, "name": "코스피", "price": 2453.95, "displacement": -2.52 },
+    { "id": 3, "name": "S&P 500", "price": 5947.07, "displacement": -0.50 },
+    { "id": 4, "name": "다우존스", "price": 43941.78, "displacement": -0.75 },
+    { "id": 5, "name": "코스닥", "price": 717.89, "displacement": -0.78 },
+    { "id": 6, "name": "FTSE 100", "price": 8646.88, "displacement": -0.53 },
+    { "id": 7, "name": "DAX", "price": 20214.79, "displacement": -0.50 },
+    { "id": 8, "name": "CAC 40", "price": 7431.04, "displacement": -0.79 }
   ]);
 
-  // stock endpoint
+  // stock
   const url = "http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/stock/chart";
-  // stock data fetch
+  const [stockData,setStockData] = useState([]);
+  const [isLoading,setIsLoading] = useState(true);
+
   useEffect(() => {
-    const fetchMarketData = async () => {
-      try {
+    const fetchStockData = async () => {
+      try{
         const response = await fetch(url);
         const data = await response.json();
-        setMarketData(data);
+        console.log("fetching!!!");
+        setStockData(data);
       } catch (err) {
-        console.log("error occur:",err);
+        console.log("error while fetching stock data:",err);
       } finally {
-        // loading bool이 있으면 바꿔주기
+        setIsLoading(false);
       }
+    };
 
-      fetchMarketData();
-    }
+    fetchStockData();
+
+    // polling every single second
+    setInterval(fetchStockData,1000);
   }, []);
 
   return (
@@ -58,7 +69,7 @@ export default function HomeScreen() {
         <LlmButton setVisible={setVisible}/>
       </View>
       <MarketStats marketData={marketData}/>
-      <StockChart />
+      <StockChart stockData={stockData}  isLoading={isLoading}/>
       <OverlayChat visible={visible} setVisible={setVisible} />
     </View>
   );
