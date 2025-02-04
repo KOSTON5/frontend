@@ -9,7 +9,6 @@ export default function MyPageScreen() {
   const userId = 1;
   const url = "http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/users/information";
   const [userName,setUserName] = useState("임정환");
-  // TODO: 서버에서 가져올 데이터
   const [totalAsset, setTotalAsset] = useState(0);
   const [cashBalance, setCashBalance] = useState(0);
   const [rateOfReturn, setRateOfReturn] = useState(0);

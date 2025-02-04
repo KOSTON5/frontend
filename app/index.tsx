@@ -142,7 +142,7 @@ export default function HomeScreen() {
       <MarketStats marketData={marketData}/>
 
       <StockChart stockData={mockUp}  isLoading={isLoading}/>
-      <OverlayChat visible={visible} setVisible={setVisible} />
+      <OverlayPage visible={visible} setVisible={setVisible} />
     </View>
   );
 }
