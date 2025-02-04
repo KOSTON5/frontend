@@ -1,34 +1,36 @@
 import {View, Text, StyleSheet, Image} from "react-native";
 
 interface AssetSummaryProps {
-  id: string;
+  name: string;
   totalAsset: number;
   cashBalance: number;
   rateOfReturn: number;
 }
 
-const AssetSummary = ({ id, totalAsset, cashBalance, rateOfReturn }: AssetSummaryProps) => {
+const AssetSummary = ({ name, totalAsset, cashBalance, rateOfReturn }: AssetSummaryProps) => {
+  // parsing
+
   return (
     <View style={styles.container}>
       <View style={styles.infoWrapper}>
         <Image style={styles.imageWrapper} source={require("../assets/images/kos.png")}></Image>
-        <Text style={styles.title}>반갑습니다, {id} 님</Text>
+        <Text style={styles.title}>반갑습니다, {name} 님</Text>
       </View>
       <View style={styles.assetWrapper}>
         <Text style={{fontWeight:"bold",fontSize:16}}>자산현황</Text>
         <View style={styles.assetContainer}>
           <Text style={{fontSize:16,marginTop:10}}>총자산</Text>
-          <Text style={styles.assetLabel}>{totalAsset}</Text>
+          <Text style={styles.assetLabel}>{totalAsset.toLocaleString()}</Text>
           <Text style={[styles.assetLabel, { fontWeight: "bold" }]}>원</Text>
         </View>
         <View style={styles.assetContainer}>
           <Text style={{fontSize:16,marginTop:10}}>예수금</Text>
-          <Text style={styles.assetLabel}>{cashBalance}</Text>
+          <Text style={styles.assetLabel}>{cashBalance.toLocaleString()}</Text>
           <Text style={[styles.assetLabel, { fontWeight: "bold" }]}>원</Text>
         </View>
         <View style={styles.assetContainer}>
           <Text style={{fontSize:16,marginTop:10}}>수익률</Text>
-          <Text style={[styles.assetLabel, { color: "red", fontWeight: "bold" }]}>{rateOfReturn}%</Text>
+          <Text style={[styles.assetLabel, { color: "red", fontWeight: "bold" }]}>{rateOfReturn.toLocaleString()}%</Text>
         </View>
       </View>
     </View>
