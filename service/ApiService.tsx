@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
 
 const getApiUrl = ({path}: {path: string}) => {
     const url = new URL('http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/');
@@ -8,31 +7,17 @@ const getApiUrl = ({path}: {path: string}) => {
 };
 
 export const getApi = async ({path}: {path: string}) => {
-    const [data, setData] = useState<any>(null);  // Adjust type if needed
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null);  // Accepts error messages
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(getApiUrl({ path }));
-                console.log("data : ", response.data);
-                setData(response.data);
-            } catch (err) {
-                if (err instanceof Error) {
-                    setError(err.message);  // Extracts error message
-                } else {
-                    setError("An unknown error occurred.");
-                }
-            } finally {
-                setLoading(false);
+    try {
+        const response = await axios.get(getApiUrl({path}), {
+            headers: {
+                "X-USER-ID" : 1,
             }
-        };
-
-        fetchData();
-    }, [path]);
-
-    return { data, loading, error };
+        });
+        return response.data;  // Return the response for further use
+    } catch (error) {
+        console.error('Error posting data:', error);
+        throw error;  // Re-throw error to handle it outside
+    }
 }
 
 export const postApi = async ({ path, body }: { path: string; body: any }) => {
