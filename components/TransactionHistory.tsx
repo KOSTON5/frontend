@@ -48,7 +48,7 @@ const TransactionHistory = ({ txHistory }: TxHistoryProps) => {
         renderItem={({ item }) => (
           <View style={styles.listItem}>
             {/* 날짜 및 거래유형 */}
-            <Text style={styles.dateText}>{item.orderDate} · 국내증권{item.orderType}</Text>
+            <Text style={styles.dateText}>{item.orderDate} · 국내증권</Text>
 
             {/* 종목명 */}
             <Text style={styles.stockName}>{item.stockName}</Text>

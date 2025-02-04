@@ -66,10 +66,10 @@ const StockChart = ({ stockData, isLoading }: StockDataProps) => {
                   </View>
                 </View>
 
-                {/* 오른쪽: 즐겨찾기 (하트) */}
-                <View style={styles.favoriteIcon}>
-                  <Text>♡</Text> {/* 하트 아이콘 */}
-                </View>
+                {/*/!* 오른쪽: 즐겨찾기 (하트) *!/*/}
+                {/*<View style={styles.favoriteIcon}>*/}
+                {/*  <Text>♡</Text> /!* 하트 아이콘 *!/*/}
+                {/*</View>*/}
               </View>
             ))
           )}
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 10,
     shadowColor: "#000",
-    shadowOpacity: 0.05,
+    shadowOpacity: 0.07,
     shadowRadius: 3,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,

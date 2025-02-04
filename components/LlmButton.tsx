@@ -8,7 +8,7 @@ const LlmButton = ({ setVisible }: { setVisible: React.Dispatch<React.SetStateAc
         <TouchableOpacity onPress={() => setVisible(true)}>
             <Image source={require("../assets/images/mic.png")} style={styles.llmButton} />
         </TouchableOpacity>
-        <Text style={styles.llmText}>터치하여 대화하며 MTS 사용해보기</Text>
+        <Text style={styles.llmText}>터치하여 대화하듯 MTS 사용해보기</Text>
     </View>
   );
 };

@@ -65,8 +65,9 @@ export default function MyPageScreen() {
       {/* 자산 정보 */}
       <AssetSummary
         name={userName}
-        totalAsset={20340560}
+        totalAsset={totalAsset}
         cashBalance={10000}
+        // TODO: 서버에서 가져올 데이터
         rateOfReturn={3.12} />
       {/* 거래 내역 */}
       <TransactionHistory txHistory={transactionHistory} />
