@@ -39,15 +39,15 @@ export default function HomeScreen() {
   // stock
   const url = "http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/stock/chart";
   const [stockData,setStockData] = useState([]);
-  const [isLoading,setIsLoading] = useState(true);
+  const [isLoading,setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchStockData = async () => {
       try{
         const response = await fetch(url);
         const data = await response.json();
-        console.log("fetching!!!");
-        setStockData(data);
+        console.log(data);
+        setStockData(data.stockComponents);
       } catch (err) {
         console.log("error while fetching stock data:",err);
       } finally {
