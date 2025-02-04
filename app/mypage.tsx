@@ -24,11 +24,10 @@ export default function MyPageScreen() {
           }
         })
         const data = await response.json();
-        console.log(data);
         setTotalAsset(Number(data.totalAssets));
         setCashBalance(Number(data.availableBalance));
         setRateOfReturn(Number(data.profitRate));
-        console.log("done");
+        console.log("fetch user name end");
       } catch (err) {
         console.log("error occur while fetching user info:",err);
       }
@@ -39,15 +38,20 @@ export default function MyPageScreen() {
   }, []);
 
   // transaction history
-  const txUrl = "";
+  const txUrl = "http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/users/orders";
   const [transactionHistory, setTransactionHistory] = useState([]);
 
   useEffect(() => {
     const fetchTransaction = async () => {
       try {
-        const response = await fetch(txUrl);
+        const response = await fetch(txUrl,{
+          headers : {
+            "X-USER-ID" : userId
+          }
+        });
         const data = await response.json();
-        setTransactionHistory(data);
+        setTransactionHistory(data.responses);
+        console.log("fetch tx history done:",transactionHistory);
       } catch (err) {
         console.log("error while fetch tx:",err);
       }

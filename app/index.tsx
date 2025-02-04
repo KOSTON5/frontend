@@ -120,7 +120,6 @@ export default function HomeScreen() {
       try{
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data);
         setStockData(data.stockComponents);
       } catch (err) {
         console.log("error while fetching stock data:",err);
