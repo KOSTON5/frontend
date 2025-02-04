@@ -30,7 +30,7 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
 
     useEffect(() => {
         setMessages([
-            { id: '1', text: '아래 버튼을 눌러 주문을 시작해보세요!', sender: 'bot', type: 'text'},
+            { id: '1', text: '무엇을 도와드릴까요?', sender: 'bot', type: 'text'},
         ]);
         setOrderId(-1);
         setStatement(undefined);
@@ -48,7 +48,7 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                 if (mid === "아니오") { // 아니오
                     setMessages(prevMessages => [
                         ...prevMessages,
-                        { id: String(prevMessages.length + 2), text: "주문을 취소하였습니다.", sender: 'bot' }
+                        { id: String(prevMessages.length + 2), text: "요청/주문을 취소하였습니다.", sender: 'bot' }
                     ]);
                     const path = "/api/orders/cancel";
                     const body = {"orderId":0}; // Assuming you're sending empty body or provide data as needed
@@ -67,11 +67,30 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                         console.log('Response: ', res);
                         setCommandType(res.commandType);
                         setOrderCondition(res.orderCondition);
-                        setMessages(prevMessages => [
-                            ...prevMessages,
-                            { id: String(prevMessages.length + 2), text: `${res.orderCondition === "MARKET"? "시장가" : "지정가"} ${res.price}에 ${res.stockName} ${res.quantity}주 ${res.commandType === "SELL"? "매도" : "매수"}하겠습니다.`, sender: 'bot' },
-                            { id: String(prevMessages.length + 3), text: '', sender: 'bot', type: 'final button' },
-                        ]);
+                        if (res.commandType === "BUY" || res.commandType == "SELL"){
+                            setMessages(prevMessages => [
+                                ...prevMessages,
+                                { id: String(prevMessages.length + 2), text: `${res.orderCondition === "MARKET"? "시장가" : "지정가"} ${res.price}원에 ${res.stockName} ${res.quantity}주 ${res.commandType === "SELL"? "매도" : "매수"}하겠습니다.`, sender: 'bot' },
+                                { id: String(prevMessages.length + 3), text: '', sender: 'bot', type: 'final button' },
+                            ]);
+                        }
+                        else if (res.commandType === "BALANCE"){
+                            setMessages(prevMessages => [
+                                ...prevMessages,
+                                { id: String(prevMessages.length + 2), text: "사용자님의 예수금 정보를 알려드리도록 하겠습니다", sender: 'bot' },
+                                { id: String(prevMessages.length + 3), text: '', sender: 'bot', type: 'final button' },
+                            ]);
+                        }
+                        else if (res.commandType === "HOLDINGS"){
+                            setMessages(prevMessages => [
+                                ...prevMessages,
+                                { id: String(prevMessages.length + 2), text: "사용자님이 보유하고 있는 주식 정보를 알려드리도록 하겠습니다", sender: 'bot' },
+                                { id: String(prevMessages.length + 3), text: '', sender: 'bot', type: 'final button' },
+                            ]);
+                        }
+                        /*else if (res.commandType === "SEARCH"){
+
+                        }*/
                         setOrderId(res.orderId);
                     } catch (error) {
                         console.error('Error during API call:', error);
@@ -90,7 +109,7 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                 if (mid === "아니오") { // 아니오
                     setMessages(prevMessages => [
                         ...prevMessages,
-                        { id: String(prevMessages.length + 2), text: "주문을 취소하였습니다.", sender: 'bot' }
+                        { id: String(prevMessages.length + 2), text: "요청/주문을 취소하였습니다.", sender: 'bot' }
                     ]);
                     const path = "/api/orders/cancel";
                     const body = {"orderId": orderId }; // Assuming you're sending empty body or provide data as needed
@@ -101,28 +120,54 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                     }
                 }
                 else{ // 예
-                    const path = `/api/orders/${orderCondition.toLowerCase()}/${commandType.toLowerCase()}`;
-                    const body = {"orderId":orderId}; // Assuming you're sending empty body or provide data as needed
-                    try {
-                        const result = await postApi({path, body});
-                        console.log(result);
-                        console.log('done');
-                        if (result.orderCondition === "MARKET"){
-                            setMessages(prevMessages => [
-                                ...prevMessages,
-                                { id: String(prevMessages.length + 2), text: `시장가 ${result.executedPrice}에 ${result.executedQuantity}주 ${result.commandType === "SELL"? "매도" : "매수"} 성공하였습니다. 마이페이지에서 확인하세요.`, sender: 'bot' }
-                            ]);
+                    if (commandType === "BUY" || commandType === "SELL") {
+                        // const path = `/api/orders/${orderCondition.toLowerCase()}/${commandType.toLowerCase()}`;
+                        const path = `/api/orders/${orderCondition.toLowerCase()}/buy`;
+                        const body = {"orderId":orderId}; // Assuming you're sending empty body or provide data as needed
+                        try {
+                            const result = await postApi({path, body});
+                            console.log(result);
+                            console.log('done');
+                            if (result.orderCondition === "MARKET"){
+                                setMessages(prevMessages => [
+                                    ...prevMessages,
+                                    { id: String(prevMessages.length + 2), text: `시장가 ${result.executedPrice}원에 ${result.executedQuantity}주 ${result.commandType === "SELL"? "매도" : "매수"} 성공하였습니다. 마이페이지에서 확인하세요.`, sender: 'bot' }
+                                ]);
+                            }
+                            else{
+                                setMessages(prevMessages => [
+                                    ...prevMessages,
+                                    { id: String(prevMessages.length + 2), text: `지정가 ${result.executedPrice}원에 ${result.executedQuantity}주 ${result.commandType === "SELL"? "매도" : "매수"} 예약하였습니다. 추후에 체결 성공 시 알려드리겠습니다. 예약 정보는 마이페이지에서 확인하세요.`, sender: 'bot' }
+                                ]);
+                            }
+                        } catch (error) {
+                            console.error('Error during API call:', error);
                         }
-                        else{
-                            setMessages(prevMessages => [
-                                ...prevMessages,
-                                { id: String(prevMessages.length + 2), text: `지정가 ${result.executedPrice}에 ${result.executedQuantity}주 ${result.commandType === "SELL"? "매도" : "매수"} 예약하였습니다. 추후에 체결 성공 시 알려드리겠습니다. 예약 정보는 마이페이지에서 확인하세요.`, sender: 'bot' }
-                            ]);
-                        }
-                    } catch (error) {
-                        console.error('Error during API call:', error);
                     }
+                    else if (commandType === "BALANCE"){// Assuming you're sending empty body or provide data as needed
+                        try {
+                            const path = '/api/users/information';
+                            const result = await getApi({ path });
+                            setMessages(prevMessages => [
+                                ...prevMessages,
+                                { id: String(prevMessages.length + 2), text: `예수금은 ${result.availableBalance}원 입니다.`, sender: 'bot' }
+                            ]);
+                        } catch (error) {
+                            console.error('Error during API call:', error);
+                        }
+                    }
+                    else if (commandType === "HOLDINGS"){
+                        const path = '/api/users/stocks';
+                        const result = await getApi({ path });
+                        const stocks = result.stocks;
+                        setMessages(prevMessages => [
+                            ...prevMessages,
+                            { id: String(prevMessages.length + 2), text: `사용자님이 보유하고 있는 주식은 ${stocks}입니다.`, sender: 'bot' }
+                        ]);
+                    }
+                    /*else if (commandType === "SEARCH"){
 
+                    }*/
                 }
             }
         })();
