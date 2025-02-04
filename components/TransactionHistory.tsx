@@ -16,12 +16,6 @@ interface TxHistoryProps {
 const TransactionHistory = ({ txHistory }: TxHistoryProps) => {
   const [selectedTab, setSelectedTab] = useState("전체");
 
-  const filterHistory = txHistory.filter((item) => {
-    if (selectedTab === "전체") return true;
-    if (selectedTab === "매매") return item.orderType === "매수" || item.orderType === "매도";
-    return false;
-  });
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>거래내역</Text>
@@ -43,7 +37,7 @@ const TransactionHistory = ({ txHistory }: TxHistoryProps) => {
 
       {/* 거래내역 리스트 - FlatList로 스크롤 가능하게 변경 */}
       <FlatList
-        data={filterHistory}
+        data={txHistory}
         keyExtractor={(item) => item.orderId.toString()}
         renderItem={({ item }) => (
           <View style={styles.listItem}>

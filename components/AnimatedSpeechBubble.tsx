@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 25,
   },
-  speechText: { fontSize: 16, fontWeight: "bold" },
+  speechText: { fontSize: 19, fontWeight: "bold" },
 });
 
 export default AnimatedSpeechBubble;
