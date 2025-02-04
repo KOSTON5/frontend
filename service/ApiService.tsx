@@ -1,13 +1,13 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const getApiUrl = ({path}: {path: string}) => {
-    const url = new URL('http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/');
+const getApiUrl = (path: string) => {
+    const url = new URL('http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com');
     url.pathname = path;
     return url.toString();
 };
 
-export const getApi = async ({path}: {path: string}) => {
+export const getApi = async (path: string) => {
     const [data, setData] = useState<any>(null);  // Adjust type if needed
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);  // Accepts error messages
@@ -15,9 +15,11 @@ export const getApi = async ({path}: {path: string}) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(getApiUrl({ path }));
-                console.log("data : ", response.data);
-                setData(response.data);
+                const response = await fetch(getApiUrl(path),{
+                    method: 'GET',
+                });
+                console.log("data : ", response);
+                setData(response);
             } catch (err) {
                 if (err instanceof Error) {
                     setError(err.message);  // Extracts error message
@@ -35,9 +37,9 @@ export const getApi = async ({path}: {path: string}) => {
     return { data, loading, error };
 }
 
-export const postApi = async ({ path, body }: { path: string; body: any }) => {
+export const postApi = async (path: string, body: any) => {
     try {
-        const response = await axios.post(path, body);
+        const response = await axios.post(getApiUrl(path), body);
         console.log('Response:', response.data);
         return response.data;  // Return the response for further use
     } catch (error) {
@@ -46,18 +48,26 @@ export const postApi = async ({ path, body }: { path: string; body: any }) => {
     }
 };
 
-export const postApiHeader = async (path: string, formData: any, header: string) => {
+export const postApiHeader = async (path: string, body : any, header: any) => {
     try {
-        const response = await axios.post(path, formData, {
-            headers: {
-                'Content-Type': header,
-            },
+        console.log(getApiUrl(path));
+        console.log(body);
+        console.log(header);
+        const response = await axios.post(getApiUrl(path), body, {
+            headers: header
         });
 
         const data = await response.data;
-
         console.log('Response:', data);
         return data;  // Return the response for further use
+        /*const response = await fetch(getApiUrl(path), {
+            method: "POST",
+            headers: header,
+            body: body,
+        })
+        const data = await response.json();
+        console.log('Response:', data);
+        return data;*/
     } catch (error) {
         console.error('Error posting data postApiHeader:', error);
         throw error;  // Re-throw error to handle it outside

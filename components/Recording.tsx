@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, Button, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { Audio } from 'expo-av';
 import LottieView from 'lottie-react-native';
 import { postApiHeader } from "@/service/ApiService";
-import {Asset} from "expo-asset";
 
 interface AudioProps {
     setStatement: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
-const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
+const AudioRecorder : React.FC<AudioProps> = ({ setStatement }) => {
     const [recording, setRecording] = useState<Audio.Recording | null>(null);
     const [isRecording, setIsRecording] = useState(false);
     const [audioUri, setAudioUri] = useState<string | null>(null);
@@ -22,6 +21,41 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
             }
         })();
     }, []);
+
+    useEffect(() => {
+        (async () => {
+            if (audioUri != null){
+                console.log('Sending audio:', audioUri);
+
+                // Create FormData to send audio file
+                // Generate a unique file name using the current timestamp
+
+                const fileName = `audio_${Date.now()}.m4a`;  // Example: audio_1633032839934.m4a
+                const url = 'Users/shinsoobin/Desktop/frontend/components/16.m4a'
+
+                // Append audio file to FormData (TypeScript will now infer the correct types)
+
+                const formData = new FormData();
+                formData.append('file', {
+                    uri: url,
+                    type: 'audio/m4a',  // MIME type for .m4a files
+                    //type: 'multipart/form-data',
+                    name: fileName,     // Dynamic file name
+                } as any );  // Type assertion to resolve TypeScript errors
+
+                const path = '/api/openai/stt';
+                const header = { 'Content-Type': 'multipart/form-data;', };
+                const body = { "audioFile": formData }
+                // Make the POST request to your local backend API
+                try{
+                    const response = await postApiHeader(path, body, header);
+                    console.log('response:', response);
+                } catch (error){
+                    console.error('Error in recording:', error);
+                }
+            }
+        })();
+    }, [audioUri]);
 
     const startRecording = async () => {
         try {
@@ -59,7 +93,7 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
             if (uri) {
                 setAudioUri(uri);
                 console.log('Recording saved at:', uri);
-                sendAudio({uri});
+
             } else {
                 console.error('Failed to retrieve recording URI');
             }
@@ -68,50 +102,6 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
         } catch (error) {
             console.error('Error stopping recording:', error);
         }
-    };
-
-    const sendAudio = async ({uri} :{uri : string}) => {
-        if (!uri) {
-            Alert.alert('No Audio', 'Please record audio first.');
-            return;
-        }
-
-        console.log('Sending audio:', uri);
-        ///////////
-
-        const asset = Asset.fromModule('./16.m4a');
-        await asset.downloadAsync()
-        const fileUri = asset.localUri();
-
-
-        const url = './16.m4a'
-
-        // Create FormData to send audio file
-        const formData = new FormData();
-
-        // Generate a unique file name using the current timestamp
-        // const fileName = `audio_${Date.now()}.m4a`;  // Example: audio_1633032839934.m4a
-
-        const file = {
-            uri: url,
-            type: 'audio/mp4',  // MIME type for .m4a files
-            name: '16.m4a',     // Dynamic file name
-        };
-
-        // tmp -> read? TODO
-        var audioFile = require("./16.m4a");
-
-        console.log(typeof(audioFile));
-
-        // Append audio file to FormData (TypeScript will now infer the correct types)
-        formData.append('audioFile', audioFile, '16.m4a');  // Type assertion to resolve TypeScript errors
-
-        const path = '/api/openai/stt';
-        const header = 'multipart/form-data';
-        // const body = { "audioFile": formData }
-        // Make the POST request to your local backend API
-        const response = postApiHeader(path, formData, header);
-        console.log('Response:', response);
     };
 
     return (

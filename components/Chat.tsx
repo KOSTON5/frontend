@@ -39,25 +39,27 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
     }, [visible]);
 
     useEffect(() => {
-        const mid = proceed;
-        setProceed(''); // Reset proceed state
-        if (mid === "아니오") { // 아니오
-            setMessages(prevMessages => [
-                ...prevMessages,
-                { id: String(prevMessages.length + 2), text: "주문을 취소하였습니다.", sender: 'bot' }
-            ]);
-            const path = "/api/orders/cancel";
-            const body = ''; // Assuming you're sending empty body or provide data as needed
-            try {
-                const result = postApi({ path, body });
-                console.log('Response: ', result);
-            } catch (error) {
-                console.error('Error during API call:', error);
+        (async () => {
+            const mid = proceed;
+            setProceed(''); // Reset proceed state
+            if (mid === "아니오") { // 아니오
+                setMessages(prevMessages => [
+                    ...prevMessages,
+                    { id: String(prevMessages.length + 2), text: "주문을 취소하였습니다.", sender: 'bot' }
+                ]);
+                const path = "/api/orders/analyze";
+                const body = {"text":"삼성 3주 3000원에 매수해줘"}; // Assuming you're sending empty body or provide data as needed
+                try {
+                    const result = await postApi(path, body);
+                    console.log('Response: ', result);
+                } catch (error) {
+                    console.error('Error during API call:', error);
+                }
             }
-        }
-        else{
-            //
-        }
+            else{
+                //
+            }
+        })();
     }, [proceed]);
 
     const handleSelection = (response: '예' | '아니오') => {
