@@ -37,8 +37,11 @@ export const getApi = async ({path}: {path: string}) => {
 
 export const postApi = async ({ path, body }: { path: string; body: any }) => {
     try {
-        const response = await axios.post(getApiUrl({path}), body);
-        console.log('Response:', response.data);
+        const response = await axios.post(getApiUrl({path}), body, {
+            headers: {
+                "X-USER-ID" : 1,
+            }
+        });
         return response.data;  // Return the response for further use
     } catch (error) {
         console.error('Error posting data:', error);

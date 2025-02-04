@@ -69,7 +69,7 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                         setOrderCondition(res.orderCondition);
                         setMessages(prevMessages => [
                             ...prevMessages,
-                            { id: String(prevMessages.length + 2), text: `${res.orderCondition === "MARKET"? "시장가" : "지정가"}에 ${res.stockName} ${res.quantity}주 ${res.commandType === "SELL"? "매도" : "매수"}하겠습니다.`, sender: 'bot' },
+                            { id: String(prevMessages.length + 2), text: `${res.orderCondition === "MARKET"? "시장가" : "지정가"} ${res.price}에 ${res.stockName} ${res.quantity}주 ${res.commandType === "SELL"? "매도" : "매수"}하겠습니다.`, sender: 'bot' },
                             { id: String(prevMessages.length + 3), text: '', sender: 'bot', type: 'final button' },
                         ]);
                         setOrderId(res.orderId);
@@ -96,22 +96,28 @@ const Chat: React.FC<ChatProps> = ({ visible, statement, setStatement }) => {
                     const body = {"orderId": orderId }; // Assuming you're sending empty body or provide data as needed
                     try {
                         const result = await postApi({path, body});
-                        console.log('Response: ', result);
                     } catch (error) {
                         console.error('Error during API call:', error);
                     }
                 }
                 else{ // 예
                     const path = `/api/orders/${orderCondition.toLowerCase()}/${commandType.toLowerCase()}`;
-                    console.log(path);
                     const body = {"orderId":orderId}; // Assuming you're sending empty body or provide data as needed
                     try {
                         const result = await postApi({path, body});
                         console.log('done');
-                        setMessages(prevMessages => [
-                            ...prevMessages,
-                            { id: String(prevMessages.length + 2), text: "주문이 완료되었습니다.", sender: 'bot' }
-                        ]);
+                        if (result.orderCondition === "MARKET"){
+                            setMessages(prevMessages => [
+                                ...prevMessages,
+                                { id: String(prevMessages.length + 2), text: `시장가 ${result.price}에 ${result.stockName} ${result.quantity}주 ${result.commandType === "SELL"? "매도" : "매수"} 성공하였습니다. 마이페이지에서 확인하세요.`, sender: 'bot' }
+                            ]);
+                        }
+                        else{
+                            setMessages(prevMessages => [
+                                ...prevMessages,
+                                { id: String(prevMessages.length + 2), text: `지정가 ${result.price}에 ${result.stockName} ${result.quantity}주 ${result.commandType === "SELL"? "매도" : "매수"} 예약하였습니다. 추후에 체결 성공 시 알려드리겠습니다. 예약 정보는 마이페이지에서 확인하세요.`, sender: 'bot' }
+                            ]);
+                        }
                     } catch (error) {
                         console.error('Error during API call:', error);
                     }

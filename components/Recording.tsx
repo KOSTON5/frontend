@@ -64,11 +64,11 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
             }
 
             setAudioUri(recordingUri);
-            console.log('Recording saved at:', recordingUri);
+            // console.log('Recording saved at:', recordingUri);
 
             // ✅ 파일 정보 확인
             const fileInfo = await FileSystem.getInfoAsync(recordingUri);
-            console.log("File info:", fileInfo);
+            // console.log("File info:", fileInfo);
 
             // ✅ 서버에 업로드 (fetch 요청 수정)
             const formData = new FormData();
@@ -88,10 +88,7 @@ const AudioRecorder: React.FC<AudioProps> = ({ setStatement }) => {
             });
 
             const data = await response.json();
-            console.log("Server Response:", data);
-            // setStatement(data.text);
-            setStatement("삼성전자 시장가로 3주 매수해줘");
-
+            setStatement(data.text);
             setRecording(null);
         } catch (error) {
             console.error('Error stopping recording:', error);
