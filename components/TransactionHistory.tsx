@@ -1,7 +1,13 @@
 import { View, Text, StyleSheet, TouchableOpacity,  } from "react-native";
 import {useState} from "react";
 
-const TransactionHistory = () => {
+interface TxHistoryProps {
+  txHistory : {
+
+  }
+}
+
+const TransactionHistory = ({txHistory}:TxHistoryProps) => {
   const [selectedTab, setSelectedTab] = useState("전체");
 
   return (

@@ -1,28 +1,13 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, {useEffect, useState} from "react";
 
-const StockChart = () => {
+interface StockDataProps {
+  stockData: { stockName: string; currentPrice: number; tradingVolume: number; fluctuationRate: number }[];
+  isLoading: boolean;
+}
 
-  // TODO : HTTP requesting
-  // 부모가 보내는게 더 좋을까?
-  const apiURL = "";
-  const [data,setData] = useState(null);
-  const [isLoading,setIsLoading] = useState(true);
+const StockChart = ({ stockData, isLoading }: StockDataProps) => {
 
-  useEffect(() => {
-    const fetchData = async () =>{
-      try {
-        const response = await fetch(apiURL);
-        const result = await response.json();
-      } catch (err) {
-        console.error("failed to fetch:",err)
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    fetchData();
-  }, []);
 
   return (
     <ScrollView style={styles.container}>
