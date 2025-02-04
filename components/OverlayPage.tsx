@@ -9,7 +9,7 @@ interface OverlayPageProps {
     setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const OverlayPage: React.FC<OverlayPageProps> = ({ visible, setVisible } ) => {
+const OverlayPage: React.FC<OverlayPageProps> = ({ visible, setVisible }) => {
 
     const [statement, setStatement] = React.useState<string>();
 

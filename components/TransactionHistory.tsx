@@ -39,9 +39,6 @@ const TransactionHistory = ({txHistory}:TxHistoryProps) => {
         ))}
       </View>
       <View style={styles.listContainer}>
-        {
-          filterHistory
-        }
       </View>
     </View>
   );
