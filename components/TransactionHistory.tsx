@@ -54,8 +54,8 @@ const TransactionHistory = ({ txHistory }: TxHistoryProps) => {
 
             {/* 주문 정보 (매수/매도, 가격, 수량) */}
             <View style={styles.orderInfo}>
-              <Text style={[styles.orderType, item.orderType === "매수" ? styles.buyText : styles.sellText]}>
-                {item.orderType === "매수" ? "매수" : "매도"}
+              <Text style={[styles.orderType, item.orderType === "BUY" ? styles.buyText : styles.sellText]}>
+                {item.orderType === "BUY" ? "매수" : "매도"}
               </Text>
               <Text style={styles.price}>{item.price.toLocaleString()} KRW</Text>
               <Text style={styles.quantity}>{item.quantity}주</Text>

@@ -140,7 +140,6 @@ export default function HomeScreen() {
         <LlmButton setVisible={setVisible}/>
       </View>
       <MarketStats marketData={marketData}/>
-
       <StockChart stockData={mockUp}  isLoading={isLoading}/>
       <OverlayPage visible={visible} setVisible={setVisible} />
     </View>
