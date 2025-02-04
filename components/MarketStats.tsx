@@ -27,7 +27,7 @@ const MarketStats = ({ marketData }: MarketDataProps) => {
           <View key={item.id} style={styles.marketBox}>
             <Text style={styles.marketText}>{item.name}</Text>
             <Text>{item.price.toLocaleString()}원</Text>
-            <Text style={{ color: item.displacement >= 0 ? "green" : "red" }}>
+            <Text style={{ color: item.displacement >= 0 ? "red" : "blue" }}>
               {item.displacement}%
             </Text>
           </View>
