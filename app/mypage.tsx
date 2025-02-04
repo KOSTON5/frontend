@@ -54,6 +54,27 @@ export default function MyPageScreen() {
     }, [])
   );
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchTransaction = async () => {
+        try {
+          const response = await fetch(url, {
+            headers: {
+              "X-USER-ID": String(userId),
+            },
+          });
+          const data = await response.json();
+          setTotalAsset(Number(data.totalAssets));
+          setCashBalance(Number(data.availableBalance));
+          setRateOfReturn(Number(data.profitRate));
+        } catch (err) {
+          console.log("error while fetching asset:", err);
+        }
+      };
+
+      fetchTransaction();
+    }, [])
+  );
 
   // transaction history
   const txUrl = "http://team5-lb-web-01-27604987-a2222b665e80.kr-fin.lb.naverncp.com/api/users/orders";

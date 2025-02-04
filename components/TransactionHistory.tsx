@@ -16,12 +16,6 @@ interface TxHistoryProps {
 const TransactionHistory = ({ txHistory }: TxHistoryProps) => {
   const [selectedTab, setSelectedTab] = useState("전체");
 
-  const filterHistory = txHistory.filter((item)=>{
-    if(selectedTab == "전체")
-      return true;
-    return item.orderType === selectedTab;
-  })
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>거래내역</Text>
