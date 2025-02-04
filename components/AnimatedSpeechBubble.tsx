@@ -32,7 +32,7 @@ const AnimatedSpeechBubble = () => {
   return (
     <Animated.View style={{ transform: [{ translateY: shakeAnime }] }}>
       <View style={styles.speechBubble}>
-        <Text style={styles.speechText}>빠르고 쉬운 투자🚀 말한마디로 금융서비스를 시작해볼까요?</Text>
+        <Text style={styles.speechText}>빠르고 쉬운 투자🚀{"\n"}대화하며 금융서비스를 경험할 수 있어요!</Text>
       </View>
     </Animated.View>
   );
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 25,
   },
-  speechText: { fontSize: 16, fontWeight: "bold" },
+  speechText: { fontSize: 19, fontWeight: "bold" },
 });
 
 export default AnimatedSpeechBubble;
