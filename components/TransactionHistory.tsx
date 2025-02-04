@@ -16,6 +16,12 @@ interface TxHistoryProps {
 const TransactionHistory = ({ txHistory }: TxHistoryProps) => {
   const [selectedTab, setSelectedTab] = useState("전체");
 
+  const filterHistory = txHistory.filter((item)=>{
+    if(selectedTab == "전체")
+      return true;
+    return item.orderType === selectedTab;
+  })
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>거래내역</Text>
@@ -34,7 +40,6 @@ const TransactionHistory = ({ txHistory }: TxHistoryProps) => {
           </TouchableOpacity>
         ))}
       </View>
-
       {/* 거래내역 리스트 - FlatList로 스크롤 가능하게 변경 */}
       <FlatList
         data={txHistory}
@@ -75,6 +80,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#898686",
     borderBottomWidth: 1,
   },
+  listContainer: {flexDirection : "column"},
   selectedTab: { borderBottomColor: "black", borderBottomWidth: 3 },
   tabText: { color: "#898686" },
   selectedTabText: { color: "black", fontWeight: "bold" },

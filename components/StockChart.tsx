@@ -66,6 +66,7 @@ const StockChart = ({ stockData, isLoading }: StockDataProps) => {
                   </View>
                 </View>
 
+
                 {/*/!* 오른쪽: 즐겨찾기 (하트) *!/*/}
                 {/*<View style={styles.favoriteIcon}>*/}
                 {/*  <Text>♡</Text> /!* 하트 아이콘 *!/*/}
