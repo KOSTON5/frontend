@@ -41,6 +41,80 @@ export default function HomeScreen() {
   const [stockData,setStockData] = useState([]);
   const [isLoading,setIsLoading] = useState(true);
 
+  // mockup data
+  const mockUp = [
+      {
+        "stockName": "삼성전자",
+        "currentPrice": 75500,
+        "tradingVolume": 15230000,
+        "fluctuationRate": 1.2,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-005930.png"
+      },
+      {
+        "stockName": "SK하이닉스",
+        "currentPrice": 123500,
+        "tradingVolume": 8400000,
+        "fluctuationRate": -0.8,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-000660.png"
+      },
+      {
+        "stockName": "LG에너지솔루션",
+        "currentPrice": 440000,
+        "tradingVolume": 3100000,
+        "fluctuationRate": 0.5,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-373220.png"
+      },
+      {
+        "stockName": "삼성바이오로직스",
+        "currentPrice": 760000,
+        "tradingVolume": 1200000,
+        "fluctuationRate": -0.3,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-207940.png"
+      },
+      {
+        "stockName": "현대차",
+        "currentPrice": 250000,
+        "tradingVolume": 5400000,
+        "fluctuationRate": 1.1,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-005380.png"
+      },
+      {
+        "stockName": "LG화학",
+        "currentPrice": 630000,
+        "tradingVolume": 2300000,
+        "fluctuationRate": -1.0,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-051910.png"
+      },
+      {
+        "stockName": "삼성SDI",
+        "currentPrice": 600000,
+        "tradingVolume": 1800000,
+        "fluctuationRate": 0.7,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-005930.png"
+      },
+      {
+        "stockName": "POSCO홀딩스",
+        "currentPrice": 410000,
+        "tradingVolume": 2900000,
+        "fluctuationRate": 1.3,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-005490.png"
+      },
+      {
+        "stockName": "NAVER",
+        "currentPrice": 212000,
+        "tradingVolume": 4600000,
+        "fluctuationRate": -0.5,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-035420.png"
+      },
+      {
+        "stockName": "카카오",
+        "currentPrice": 49000,
+        "tradingVolume": 7300000,
+        "fluctuationRate": 0.9,
+        "logo" : "https://thumb.tossinvest.com/image/resized/96x0/https%3A%2F%2Fstatic.toss.im%2Fpng-icons%2Fsecurities%2Ficn-sec-fill-035720.png"
+      }
+    ]
+
   useEffect(() => {
     const fetchStockData = async () => {
       try{
@@ -69,7 +143,7 @@ export default function HomeScreen() {
         <LlmButton setVisible={setVisible}/>
       </View>
       <MarketStats marketData={marketData}/>
-      <StockChart stockData={stockData}  isLoading={isLoading}/>
+      <StockChart stockData={mockUp}  isLoading={isLoading}/>
       <OverlayChat visible={visible} setVisible={setVisible} />
     </View>
   );
